@@ -16,12 +16,10 @@ public class DatabaseAccess {
 			PreparedStatement statement = currentCon.prepareStatement(query);
 			ResultSet resultSet = statement.executeQuery();
 			ArrayList<String> ar = new ArrayList<String>();
-			System.out.println("before resultset");
 			while (resultSet.next())
 			{
 
 				String label = resultSet.getString("invoice_label");
-				System.out.println(label);
 				ar.add(label);
 			}
 			statement.close();
