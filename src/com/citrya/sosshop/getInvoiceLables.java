@@ -16,7 +16,11 @@ public class getInvoiceLables extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<String> ar = new ArrayList<String>();
 		ar = new DatabaseAccess().getInvoiceLables();
-		response.getWriter().append("Served at: ").append(ar.get(0));
+		for( String label: ar){
+			response.getWriter().append("Served at: ").append(label).append("\n");
+			
+		}
+		
 		
 	}
 
