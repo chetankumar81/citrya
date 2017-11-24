@@ -29,10 +29,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.net.ssl.HttpsURLConnection;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
 
 
 
@@ -66,7 +72,7 @@ public class TestGoogle {
 	    URL obj = new URL(url);
 	    HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 	   // BufferedImage img = ImageIO.read(new File("c://users//uma//desktop//1.jpg"));
-	    String imgstr = encodeFileToBase64Binary(new File("F:\\UMA\\2.jpg"
+	    String imgstr = encodeFileToBase64Binary(new File("F:\\UMA\\f1.jpg"
 	    		
 	    		));
 
@@ -108,15 +114,29 @@ public class TestGoogle {
 	    StringBuffer response = new StringBuffer();
 	    System.out.println("12");
 	    while ((inputLine = in.readLine()) != null) {
-	    	System.out.println(inputLine);
+	    	//System.out.println(inputLine);
 	    	response.append(inputLine);
 	    }
 	    in.close();
 
 	    re = response.toString();
-	    System.out.println(re);
-	    try(  PrintWriter out = new PrintWriter( "F:\\UMA\\result.txt" )  ){
-	        out.println( re );
+	 
+	    	 Object obj1 =JSONValue.parse(re);  
+	    	  JSONObject jsonObject = (JSONObject) obj1;
+	    	   JSONArray responsearray = (JSONArray) jsonObject.get("responses");
+	           Iterator i =responsearray.iterator();
+                String text="";
+	            while (i.hasNext()) {
+	                JSONObject obj2 = (JSONObject) i.next();
+	                 JSONObject obj3=(JSONObject)obj2.get("fullTextAnnotation");
+	                 text=(String)obj3.get("text");
+	            }
+	    	    
+	      	    System.out.println(text);
+	
+	
+	    try(  PrintWriter out = new PrintWriter( "F:\\UMA\\f1.txt" )  ){
+	        out.println(text);
 	    }
 	    Thread.sleep(10000);
 	}
