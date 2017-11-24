@@ -42,4 +42,18 @@ public class DatabaseAccess {
 		}
 		return null;
 	}
+	
+	
+	public String getInvoice(String s)
+	{
+		 String s1="";
+ 		int i1=s.lastIndexOf("Invoice No:");
+ 		for(int j=i1+12;j<=i1+25;j++)
+ 		{
+ 			s1=s1+s.charAt(j);
+ 		}
+         
+		return s1;
+		
+	}
 }

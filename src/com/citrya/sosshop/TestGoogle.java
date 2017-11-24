@@ -1,6 +1,7 @@
 package com.citrya.sosshop;
 
 
+import com.citrya.dao.DatabaseAccess;
 import com.google.api.client.repackaged.org.apache.commons.codec.binary.Base64;
 import com.google.cloud.vision.v1.AnnotateImageRequest;
 import com.google.cloud.vision.v1.AnnotateImageResponse;
@@ -131,10 +132,11 @@ public class TestGoogle {
 	                 JSONObject obj3=(JSONObject)obj2.get("fullTextAnnotation");
 	                 text=(String)obj3.get("text");
 	            }
-	    	    
-	      	    System.out.println(text);
-	
-	
+	            
+	           String s=new DatabaseAccess().getInvoice(text);
+	           
+	            System.out.println("Invoice no :"+s);
+	            
 	    try(  PrintWriter out = new PrintWriter( "F:\\UMA\\f1.txt" )  ){
 	        out.println(text);
 	    }
