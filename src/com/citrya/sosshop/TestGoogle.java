@@ -73,7 +73,7 @@ public class TestGoogle {
 		URL obj = new URL(url);
 		HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 		// BufferedImage img = ImageIO.read(new File("c://users//uma//desktop//1.jpg"));
-		String imgstr = encodeFileToBase64Binary(new File("E:\\UMA\\f1.jpg"));
+		String imgstr = encodeFileToBase64Binary(new File("F:\\UMA\\7.jpg"));
 
 		//    imgstr = encodeFileToBase64Binary(img, "png");
 
@@ -122,10 +122,13 @@ public class TestGoogle {
 		
 		String text = new DatabaseAccess().getTextValueOfImage(re);
 		String invoiceNo = new DatabaseAccess().getInvoice(text);
-
+        String amount=new DatabaseAccess().getAmount(text);
+        String date=new DatabaseAccess().getDate(text);
 		System.out.println("Invoice no :"+ invoiceNo);
+		System.out.println("Total Amount :"+amount);
+		System.out.println("Date :"+date);
 
-		try(  PrintWriter out = new PrintWriter( "E:\\UMA\\f1.txt" )  ){
+		try(  PrintWriter out = new PrintWriter( "F:\\UMA\\7.txt" )  ){
 			out.println(text);
 		}
 		Thread.sleep(10000);

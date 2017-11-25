@@ -65,7 +65,7 @@ public class DatabaseAccess {
 	public String getInvoice(String text)
 	{
 		String invoiceNo = "";
-		int i1 =text.lastIndexOf("Invoice No:");
+		int i1 =text.indexOf("Invoice No");
 		//Here based on the company we know the length of the invoice no or we can use Regular Expression
 		//also to search for the invoice no; because for each invoice the format is different there is no pattern
 		for(int j=i1+12;j<=i1+25;j++)
@@ -73,5 +73,28 @@ public class DatabaseAccess {
 			invoiceNo=invoiceNo+text.charAt(j);
 		}
 		return invoiceNo;
+	}
+	
+	public String getAmount(String text)
+	{
+		String amount = "";
+		int i1 =text.lastIndexOf("Amount to be collected:");
+		for(int j=i1+23;j<i1+28;j++)
+		{
+			amount=amount+text.charAt(j);
+		}
+		return amount;
+	}
+	public String getDate(String text)
+	{
+		String date="";
+		
+		int i1=text.indexOf("Time:");
+		for(int j=i1+5;j<=i1+16;j++)
+		{
+			date=date+text.charAt(j);
+		}
+		
+		return date;
 	}
 }
