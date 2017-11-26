@@ -73,7 +73,7 @@ public class TestGoogle {
 		URL obj = new URL(url);
 		HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 		// BufferedImage img = ImageIO.read(new File("c://users//uma//desktop//1.jpg"));
-		String imgstr = encodeFileToBase64Binary(new File("F:\\UMA\\7.jpg"));
+		String imgstr = encodeFileToBase64Binary(new File("F:\\UMA\\9.jpg"));
 
 		//    imgstr = encodeFileToBase64Binary(img, "png");
 
@@ -121,14 +121,35 @@ public class TestGoogle {
 		re = response.toString();
 		
 		String text = new DatabaseAccess().getTextValueOfImage(re);
-		String invoiceNo = new DatabaseAccess().getInvoice(text);
-        String amount=new DatabaseAccess().getAmount(text);
-        String date=new DatabaseAccess().getDate(text);
+		
+		int result= new DatabaseAccess().getName(text);
+		if(result==1)
+		{
+			//It must be Maiyas Restaurants
+			
+			String invoiceNo = new DatabaseAccess().getInvoice1(text);
+	        String amount=new DatabaseAccess().getAmount1(text);
+	        String date=new DatabaseAccess().getDate1(text);
+			System.out.println("Invoice no :"+ invoiceNo);
+			System.out.println("Total Amount :"+amount);
+			System.out.println("Date :"+date);
+			
+		}
+		
+		else if(result==2)
+		{
+		
+			// It must be FreshMenu.
+			
+		String invoiceNo = new DatabaseAccess().getInvoice2(text);
+        String amount=new DatabaseAccess().getAmount2(text);
+        String date=new DatabaseAccess().getDate2(text);
 		System.out.println("Invoice no :"+ invoiceNo);
 		System.out.println("Total Amount :"+amount);
 		System.out.println("Date :"+date);
+		}
 
-		try(  PrintWriter out = new PrintWriter( "F:\\UMA\\7.txt" )  ){
+		try(  PrintWriter out = new PrintWriter( "F:\\UMA\\9.txt" )  ){
 			out.println(text);
 		}
 		Thread.sleep(10000);

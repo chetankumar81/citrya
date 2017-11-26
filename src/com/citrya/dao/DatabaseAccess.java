@@ -62,7 +62,56 @@ public class DatabaseAccess {
         }
 		return text;
 	}
-	public String getInvoice(String text)
+	
+	
+	public int getName(String text)
+	{
+		int flag=0;
+		
+		if(text.contains("Maiyas"))
+			flag=1;
+		//It would return 1 if text contains Maiyas.
+		else if(text.contains("FreshMenu"))
+			flag=2;
+		// It would return 2 if text contains FreshMenu.
+		return flag;
+	}
+	
+	public String getInvoice1(String text)
+	{
+		String invoiceNo = "";
+		int i1 =text.indexOf("Bill No");
+		for(int j=i1+9;j<=i1+28;j++)
+		{
+			invoiceNo=invoiceNo+text.charAt(j);
+		}
+		return invoiceNo;
+	}
+	
+	public String getAmount1(String text)
+	{
+		String amount = "";
+		int i1 =text.lastIndexOf("Cash");
+		for(int j=i1+20;j<=i1+23;j++)
+		{
+			amount=amount+text.charAt(j);
+		}
+		return amount;
+	}
+	public String getDate1(String text)
+	{
+		String date="";
+		
+		int i1=text.indexOf("Date");
+		for(int j=i1+5;j<=i1+14;j++)
+		{
+			date=date+text.charAt(j);
+		}
+		
+		return date;
+	}
+
+	public String getInvoice2(String text)
 	{
 		String invoiceNo = "";
 		int i1 =text.indexOf("Invoice No");
@@ -75,7 +124,7 @@ public class DatabaseAccess {
 		return invoiceNo;
 	}
 	
-	public String getAmount(String text)
+	public String getAmount2(String text)
 	{
 		String amount = "";
 		int i1 =text.lastIndexOf("Amount to be collected:");
@@ -85,7 +134,7 @@ public class DatabaseAccess {
 		}
 		return amount;
 	}
-	public String getDate(String text)
+	public String getDate2(String text)
 	{
 		String date="";
 		
