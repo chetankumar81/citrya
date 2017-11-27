@@ -10,6 +10,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+import com.citrya.sosparse.ParseMatchData;
+
 public class DatabaseAccess {
 	private Connection currentCon;
 
@@ -64,17 +66,24 @@ public class DatabaseAccess {
 	}
 	
 	
-	public int getName(String text)
+	public String getShopName(String text)
 	{
-		int flag=0;
-		
-		if(text.contains("Maiyas"))
-			flag=1;
-		//It would return 1 if text contains Maiyas.
-		else if(text.contains("FreshMenu"))
-			flag=2;
-		// It would return 2 if text contains FreshMenu.
-		return flag;
+		String shopname = "";
+		String[] tempshopname = text.split(" ");
+		String temp = tempshopname[0];
+		if(temp.contains("\n"))
+			temp = tempshopname[0].split("\n")[0];
+		shopname = temp;
+		return shopname;
+//		int flag=0;
+//		
+//		if(text.contains("Maiyas"))
+//			flag=1;
+//		//It would return 1 if text contains Maiyas.
+//		else if(text.contains("FreshMenu"))
+//			flag=2;
+//		// It would return 2 if text contains FreshMenu.
+//		return flag;
 	}
 	
 	public String getInvoice1(String text)
@@ -145,5 +154,48 @@ public class DatabaseAccess {
 		}
 		
 		return date;
+	}
+	public ParseMatchData getmatchdetails(String shopname) {
+		ParseMatchData returnvalue = null;
+		try
+	    {
+	  	  currentCon = (Connection) new ClientSpecificDataConnectionManager().getConnection();
+	  	  String query = "Select * from parsetable where shopname= ?";
+	        PreparedStatement pst = currentCon.prepareStatement(query);
+	        pst.setString(1, shopname);
+	        
+	        ResultSet rs = pst.executeQuery();
+	        while (rs.next())
+		      {
+			     returnvalue = new ParseMatchData();
+			     returnvalue.shopname = rs.getString(2);
+			     
+			     returnvalue.normalparse = rs.getInt(3);
+			     returnvalue.billnoparse = rs.getString(4);
+			     returnvalue.dateparse = rs.getString(5);
+			     returnvalue.amounparse = rs.getString(6);
+		      }
+
+	    }
+		      catch (Exception ex) 
+		   {
+		      System.out.println("Unable to retrive data: An Exception has occurred! " + ex);
+		   } 
+			    
+	 //some exception handling
+		   finally 
+		   {
+			
+		      if (currentCon != null) {
+		         try {
+		            currentCon.close();
+		         } catch (Exception e) {
+		         }
+
+		         currentCon = null;
+		      }
+		   }
+		return returnvalue;
+		
 	}
 }

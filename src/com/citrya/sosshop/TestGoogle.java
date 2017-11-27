@@ -2,6 +2,8 @@ package com.citrya.sosshop;
 
 
 import com.citrya.dao.DatabaseAccess;
+import com.citrya.sosparse.ParseData;
+import com.citrya.sosparse.ParseMatchData;
 import com.google.api.client.repackaged.org.apache.commons.codec.binary.Base64;
 import com.google.cloud.vision.v1.AnnotateImageRequest;
 import com.google.cloud.vision.v1.AnnotateImageResponse;
@@ -73,7 +75,7 @@ public class TestGoogle {
 		URL obj = new URL(url);
 		HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 		// BufferedImage img = ImageIO.read(new File("c://users//uma//desktop//1.jpg"));
-		String imgstr = encodeFileToBase64Binary(new File("F:\\UMA\\9.jpg"));
+		String imgstr = encodeFileToBase64Binary(new File("E:\\UMA\\1.jpg"));
 
 		//    imgstr = encodeFileToBase64Binary(img, "png");
 
@@ -122,7 +124,22 @@ public class TestGoogle {
 		
 		String text = new DatabaseAccess().getTextValueOfImage(re);
 		
-		int result= new DatabaseAccess().getName(text);
+		String shopname= new DatabaseAccess().getShopName(text);
+		System.out.println("printing shop name: " +shopname);
+		
+		ParseData data = new ParseData(shopname.toLowerCase());
+		String[] result = data.getResult(text);
+		
+		System.out.println("Invoice no : "+result[0]);
+		System.out.println("Date : "+result[1]);
+		System.out.println("Total Amount : "+result[2]);
+		
+		/*int result;
+		if(shopname.equals("Maiyas"))
+			result = 1;
+		else
+			result = 2;
+		
 		if(result==1)
 		{
 			//It must be Maiyas Restaurants
@@ -147,9 +164,9 @@ public class TestGoogle {
 		System.out.println("Invoice no :"+ invoiceNo);
 		System.out.println("Total Amount :"+amount);
 		System.out.println("Date :"+date);
-		}
+		}*/
 
-		try(  PrintWriter out = new PrintWriter( "F:\\UMA\\9.txt" )  ){
+		try(  PrintWriter out = new PrintWriter( "E:\\UMA\\1.txt" )  ){
 			out.println(text);
 		}
 		Thread.sleep(10000);
