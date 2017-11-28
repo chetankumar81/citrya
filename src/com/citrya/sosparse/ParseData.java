@@ -43,12 +43,14 @@ public class ParseData {
 			//System.out.println("line no: "+i1+" and line: "+lines[i1]);
 			//invoice number.
 			String[] tempinvseq = parsedata.billnoparse.split("##");
-			
-			if ((lines[i1].contains(tempinvseq[0]))||(lines[i1].contains(tempinvseq[1]))||(lines[i1].contains(tempinvseq[2])))
+			for (int j=0;j<tempinvseq.length-1;j++)
 			{
-				System.out.println("inv lines["+i1+"]"+lines[i1]);
-				String[] temp = lines[i1].split(" ");
-				result[0] = temp[temp.length-1];
+				if (lines[i1].contains(tempinvseq[j]))
+				{
+					System.out.println("inv lines[i1]"+lines[i1]);
+					String[] temp = lines[i1].split(" ");
+					result[0] = temp[temp.length-1];
+				}
 			}
 					
 			//date
