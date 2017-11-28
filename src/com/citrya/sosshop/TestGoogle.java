@@ -75,7 +75,7 @@ public class TestGoogle {
 		URL obj = new URL(url);
 		HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 		// BufferedImage img = ImageIO.read(new File("c://users//uma//desktop//1.jpg"));
-		String imgstr = encodeFileToBase64Binary(new File("E:\\UMA\\1.jpg"));
+		String imgstr = encodeFileToBase64Binary(new File("E:\\UMA\\5.jpg"));
 
 		//    imgstr = encodeFileToBase64Binary(img, "png");
 
@@ -166,7 +166,7 @@ public class TestGoogle {
 		System.out.println("Date :"+date);
 		}*/
 
-		try(  PrintWriter out = new PrintWriter( "E:\\UMA\\1.txt" )  ){
+		try(  PrintWriter out = new PrintWriter( "E:\\UMA\\5.txt" )  ){
 			out.println(text);
 		}
 		Thread.sleep(10000);

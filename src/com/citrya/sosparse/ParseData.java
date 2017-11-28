@@ -2,6 +2,8 @@ package com.citrya.sosparse;
 
 import java.sql.Connection;
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -37,51 +39,95 @@ public class ParseData {
 		ParseMatchData parsedata = new DatabaseAccess().getmatchdetails(shopname);
 		String returnvalue="";
 		String[] lines = text.split("\n");
-		for (int i1=0;i1<lines.length;i1++)
-		{
-			//printing line and line number
-			//System.out.println("line no: "+i1+" and line: "+lines[i1]);
-			//invoice number.
-			String[] tempinvseq = parsedata.billnoparse.split("##");
-			for (int j=0;j<tempinvseq.length-1;j++)
+		if(parsedata.normalparse == 1){
+			for (int i1=0;i1<lines.length;i1++)
 			{
-				if (lines[i1].contains(tempinvseq[j]))
+				//printing line and line number
+				//System.out.println("line no: "+i1+" and line: "+lines[i1]);
+				//invoice number.
+				String[] tempinvseq = parsedata.billnoparse.split("##");
+				for (int j=0;j<tempinvseq.length-1;j++)
 				{
-					System.out.println("inv lines[i1]"+lines[i1]);
+					if (lines[i1].contains(tempinvseq[j]))
+					{
+						System.out.println("inv lines[i1]"+lines[i1]);
+						String[] temp = lines[i1].split(" ");
+						result[0] = temp[temp.length-1];
+					}
+				}
+						
+				//date
+				String[] tempdateseq = parsedata.dateparse.split("&");
+				if ((lines[i1]).contains(tempdateseq[0])) {
+					System.out.println(" date lines[i1]"+lines[i1]);
+				if (tempdateseq[1].equalsIgnoreCase("1"))
+						{
 					String[] temp = lines[i1].split(" ");
-					result[0] = temp[temp.length-1];
+					if (temp.length==4)
+					
+					result[1] = temp[temp.length-3]+"-"+temp[temp.length-2];
+					else
+						result[1] = temp[temp.length-2];
+						}
+				else if(tempdateseq[1].equalsIgnoreCase("3")){
+					result[1] = lines[i1];
+				}
+				}
+				
+				// amount
+				
+				String[] tempamountseq = parsedata.amounparse.split("&");
+				
+				if ((lines[i1]).contains(tempamountseq[0])) {
+					System.out.println("cash lines[i1]"+lines[i1]);
+				
+					result[2] =lines[i1+new Integer(tempamountseq[2]).intValue()];
+					
 				}
 			}
-					
-			//date
-			String[] tempdateseq = parsedata.dateparse.split("&");
-			if ((lines[i1]).contains(tempdateseq[0])) {
-				System.out.println(" date lines[i1]"+lines[i1]);
-			if (tempdateseq[1].equalsIgnoreCase("1"))
-					{
-				String[] temp = lines[i1].split(" ");
-				if (temp.length==4)
+		}else if(parsedata.normalparse == 2){
+			for (int i1=0;i1<lines.length;i1++)
+			{
+				//invoice number.
+				if(lines[i1].matches(parsedata.billnoparse)){
+					result[0] = lines[i1];
+				}
 				
-				result[1] = temp[temp.length-3]+"-"+temp[temp.length-2];
-				else
-					result[1] = temp[temp.length-2];
+				/*if(lines[i1].matches(parsedata.billnoparse)){
+					Matcher m = Pattern.compile(parsedata.billnoparse).matcher(lines[i1]);
+					if(m.find()){
+						result[0] = lines[i1].substring(m.start(),m.end());
 					}
-			else if(tempdateseq[1].equalsIgnoreCase("3")){
-				result[1] = lines[i1];
-			}
-			}
-			
-			// amount
-			
-			String[] tempamountseq = parsedata.amounparse.split("&");
-			
-			if ((lines[i1]).contains(tempamountseq[0])) {
-				System.out.println("cash lines[i1]"+lines[i1]);
-			
-				result[2] =lines[i1+new Integer(tempamountseq[2]).intValue()];
+				}*/
+					 
+					
+				/*String[] tempinvseq = parsedata.billnoparse.split("&");
+				if((lines[i1]).contains(tempinvseq[0])){
+					System.out.println("cash lines["+i1+"]: "+lines[i1]);
+					result[0] = lines[i1+new Integer(tempinvseq[2]).intValue()];
+				}*/
 				
+				//date
+				String[] tempdateseq = parsedata.dateparse.split("&");
+				if((lines[i1]).contains(tempdateseq[0])){
+					System.out.println("cash lines["+i1+"]: "+lines[i1]);
+					if (tempdateseq[3].equalsIgnoreCase("3"))
+					{
+						result[1] = lines[i1+new Integer(tempdateseq[2]).intValue()];
+					}
+				}
+				
+				// amount
+				String[] tempamountseq = parsedata.amounparse.split("&");
+				if ((lines[i1]).equals(tempamountseq[0])) {
+					System.out.println("cash lines[i1]"+lines[i1]);
+				
+					result[2] =lines[i1+new Integer(tempamountseq[2]).intValue()];
+					
+				}
 			}
 		}
+		
 		return result;
 		
 	}
