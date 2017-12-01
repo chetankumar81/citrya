@@ -75,7 +75,7 @@ public class TestGoogle {
 		URL obj = new URL(url);
 		HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 		// BufferedImage img = ImageIO.read(new File("c://users//uma//desktop//1.jpg"));
-		String imgstr = encodeFileToBase64Binary(new File("E:\\UMA\\1.jpg"));
+		String imgstr = encodeFileToBase64Binary(new File("E:\\UMA\\9.jpg"));
 
 		//    imgstr = encodeFileToBase64Binary(img, "png");
 
@@ -124,7 +124,11 @@ public class TestGoogle {
 		
 		String text = new DatabaseAccess().getTextValueOfImage(re);
 		
-		String shopname = "relay";//"maiyas";//new DatabaseAccess().getShopName(text); //not using anymore because providing shopname as input
+		//String shopname = new DatabaseAccess().getShopName(text); //not using anymore because providing shopname as input
+		//String shopname = "relay";
+		String shopname = "maiyas";
+		//String shopname = "shoppers stop";
+		//String shopname = "jubilant";
 		System.out.println("printing shop name: " +shopname);
 		
 		ParseData data = new ParseData(shopname.toLowerCase());
@@ -166,7 +170,7 @@ public class TestGoogle {
 		System.out.println("Date :"+date);
 		}*/
 
-		try(  PrintWriter out = new PrintWriter( "E:\\UMA\\1.txt" )  ){
+		try(  PrintWriter out = new PrintWriter( "E:\\UMA\\9.txt" )  ){
 			out.println(text);
 		}
 		Thread.sleep(10000);

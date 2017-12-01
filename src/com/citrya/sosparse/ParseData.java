@@ -69,7 +69,6 @@ public class ParseData {
 
 				//invoice number.
 				if(lines[i1].matches(parsedata.billnoparse)){
-
 					result[0] = lines[i1].replaceAll(parsedata.billnoparse,"$1"); 
 				}
 
@@ -81,7 +80,7 @@ public class ParseData {
 				// amount
 				String[] tempamountseq = parsedata.amounparse.split("&");
 				if ((lines[i1]).equals(tempamountseq[0])) {
-					System.out.println("cash lines[i1]"+lines[i1]);
+					System.out.println("cash lines["+i1+"]"+lines[i1]);
 
 					result[2] =lines[i1+new Integer(tempamountseq[2]).intValue()];
 
