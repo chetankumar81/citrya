@@ -78,21 +78,27 @@ public class ParseData {
 				}
 
 				// amount
-				String[] tempamountseq = parsedata.amounparse.split("&");
-				if ((lines[i1]).equals(tempamountseq[0])) {
-					if(parsedata.shopname.equals("shoppers stop")){
-						String[] temp = tempamountseq[2].split("/");
-						if(!Character.isLetter(lines[i1+new Integer(temp[0]).intValue()].charAt(0))){
-							result[2] = lines[i1+new Integer(temp[0]).intValue()];
-						}	
-						else{
-							result[2] = lines[i1+new Integer(temp[1]).intValue()];
+				if(parsedata.shopname.equals("freshmenu")){
+					if(lines[i1].matches(parsedata.amounparse)){
+						result[2] = lines[i1].replaceAll(parsedata.amounparse,"$1"); 
+					}
+				}else{
+					String[] tempamountseq = parsedata.amounparse.split("&");
+					if((lines[i1]).equals(tempamountseq[0])) {
+						if(parsedata.shopname.equals("shoppers stop")){
+							String[] temp = tempamountseq[2].split("/");
+							if(!Character.isLetter(lines[i1+new Integer(temp[0]).intValue()].charAt(0))){
+								result[2] = lines[i1+new Integer(temp[0]).intValue()];
+							}	
+							else{
+								result[2] = lines[i1+new Integer(temp[1]).intValue()];
+								System.out.println("cash lines["+i1+"]"+lines[i1]);
+							}
+
+						}else{
 							System.out.println("cash lines["+i1+"]"+lines[i1]);
+							result[2] =lines[i1+new Integer(tempamountseq[2]).intValue()];
 						}
-							
-					}else{
-						System.out.println("cash lines["+i1+"]"+lines[i1]);
-						result[2] =lines[i1+new Integer(tempamountseq[2]).intValue()];
 					}
 				}
 			}
